@@ -8,7 +8,7 @@
 
 namespace app{
 
-using algo = nch::algorithms::fnv1a64;
+using algo = nch::algorithms::imurmur32;
 using hash = nch::algorithm<algo>;
 
 template <typename T>
