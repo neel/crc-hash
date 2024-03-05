@@ -7,6 +7,9 @@ Use `hash_value` overloads to provide hash of a class.
 ```cpp
 namespace app{
 
+using algo = noch::algorithms::imurmur32;
+using hash = noch::algorithm<algo>;
+
 template <typename T>
 struct coordinates{
     using value_type = T;
@@ -16,9 +19,8 @@ struct coordinates{
     constexpr value_type x() const { return _x; }
     constexpr value_type y() const { return _y; }
 
-    friend crc::value_type hash_value(const coordinates<T>& coords, crc::value_type& seed){
-        seed = crc::hash_values(seed, coords._x, coords._y);
-        return seed;
+    friend hash::value hash_value(const coordinates<T>& coords, hash::state& state){
+        return noch::hash_values(state, coords._x, coords._y);
     }
 
     private:
@@ -43,10 +45,9 @@ struct content{
         _points.push_back(coordinates_type(x, y));
     }
 
-    friend crc::value_type hash_value(const content<T>& c, crc::value_type& seed){
-        seed = crc::hash_value(c._points, seed);
-        seed = crc::hash_value(c._angle, seed);
-        return seed;
+    friend hash::value hash_value(const content<T>& c, hash::state& state){
+        noch::hash_value(c._points, state);
+        return noch::hash_value(c._angle, state);
     }
 
     private:
@@ -63,13 +64,12 @@ int main(int argc, char **argv) {
     c.add(10, 20);
     c.add(65, 46);
 
-    std::cout << crc::hash_value(app::coordinates<double>{10, 20}) << " " << crc::hash_value(app::coordinates<int>{10, 20}) << std::endl;
-    std::cout << crc::hash_value(c) << std::endl;
+    std::cout << app::hash::hash_value(app::coordinates<double>{10, 20}) << " " << app::hash::hash_value(app::coordinates<int>{10, 20}) << std::endl;
+    std::cout << app::hash::hash_value(c) << std::endl;
 
-    crc::value_type seed = crc::init;
-
-    std::cout << std::hex << crc::hash_value(std::string("Hello"), seed) << std::endl;
-    std::cout << std::hex << crc::hash_value(std::string("Hello"), seed) << std::endl;
+    app::hash::state state;
+    std::cout << std::hex << app::hash::hash_value(std::string("this is a"), state) << std::endl;
+    std::cout << std::hex << noch::hash_value<app::algo>(std::string(" test string"), state) << std::endl;
 
     return 0;
 }
