@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: 2023 Neel Basu
 // SPDX-License-Identifier: BSD-3-Clause
 
-#ifndef NCH_HASH_H_71704c00
-#define NCH_HASH_H_71704c00
+#ifndef NCH_HASH_H
+#define NCH_HASH_H
 
 #include <vector>
 #include <cstdint>
@@ -130,4 +130,4 @@ typename Algorithm::state::value hash_value(const T& v){
 
 }
 
-#endif // NCH_HASH_H_71704c00
+#endif // NCH_HASH_H
