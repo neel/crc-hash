@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: 2023 Neel Basu
 // SPDX-License-Identifier: BSD-3-Clause
 
-#ifndef NCH_ALGORITHMS_MURMUR_FNV_H
-#define NCH_ALGORITHMS_MURMUR_FNV_H
+#ifndef NCH_ALGORITHMS_MURMUR_H
+#define NCH_ALGORITHMS_MURMUR_H
 
 #include <climits>
 #include <cstddef>

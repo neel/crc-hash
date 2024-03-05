@@ -7,5 +7,6 @@
 #include <noch/algorithms/crc.h>
 #include <noch/algorithms/fnv.h>
 #include <noch/algorithms/murmur.h>
+#include <noch/algorithms/mixed.h>
 
 #endif // NCH_ALGORITHMS_H
