@@ -54,15 +54,14 @@ struct crc{
     };
 };
 
-using crc_16_type       = crc<16, 0x8005, 0, 0, true, true>;
-using crc_ccitt_false_t = crc<16, 0x1021, 0xFFFF, 0, false, false>;
-using crc_ccitt_type    = crc_ccitt_false_t;
-using crc_ccitt_true_t  = crc<16, 0x1021, 0, 0, true, true>;
-using crc_xmodem_type   = crc<16, 0x8408, 0, 0, true, true>;
-using crc_xmodem_t      = crc<16, 0x1021, 0, 0, false, false>;
-using crc_32_type       = crc<32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true>;
-using crc_64_iso_type   = crc<64, 0x000000000000001B, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, true, true>;
-using crc_64_ecma_type  = crc<64, 0x42F0E1EBA9EA3693, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, true, true>;
+using crc16             = crc<16, 0x8005, 0, 0, true, true>;
+using crc_ccitt_false   = crc<16, 0x1021, 0xFFFF, 0, false, false>;
+using crc_ccitt_true    = crc<16, 0x1021, 0, 0, true, true>;
+using crc_xmodem        = crc<16, 0x8408, 0, 0, true, true>;
+using crc_xmodem_false  = crc<16, 0x1021, 0, 0, false, false>;
+using crc32             = crc<32, 0x04C11DB7, 0xFFFFFFFF, 0xFFFFFFFF, true, true>;
+using crc64_iso         = crc<64, 0x000000000000001B, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, true, true>;
+using crc64_ecma        = crc<64, 0x42F0E1EBA9EA3693, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, true, true>;
 
 namespace detail{
     template <std::size_t Bits>

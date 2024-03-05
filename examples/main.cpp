@@ -8,7 +8,7 @@
 
 namespace app{
 
-using algo = noch::algorithms::imurmur32;
+using algo = noch::algorithms::crc32;
 using hash = noch::algorithm<algo>;
 
 template <typename T>
@@ -68,8 +68,8 @@ int main(int argc, char **argv) {
     std::cout << app::hash::hash_value(c) << std::endl;
 
     app::hash::state state;
-    std::cout << std::hex << app::hash::hash_value(std::string("this is a"), state) << std::endl;
-    std::cout << std::hex << noch::hash_value<app::algo>(std::string(" test string"), state) << std::endl;
+    std::cout << std::hex << app::hash::hash_value(std::string("hello"), state) << std::endl;
+    std::cout << std::hex << noch::hash_value<app::algo>(std::string("world"), state) << std::endl;
 
     return 0;
 }

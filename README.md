@@ -1,6 +1,6 @@
 Simple CRC based hash using Boost.CRC 
 
-Calculate hash like `crc::hash_value(std::string("Hello"))`.
+Calculate hash like `noch::hash_value<noch::algorithms::crc32>(std::string("Hello"))`.
 
 Use `hash_value` overloads to provide hash of a class.
 
