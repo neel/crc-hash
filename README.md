@@ -1,4 +1,4 @@
-A tiny NOn Cryptographic Hash library. Only a subset of incremental hash functions are supported.
+A tiny **NO**n **C**ryptographic **H**ash library. Only a subset of incremental hash functions are supported.
 
 | Algorithm  | Bits       | Source                         |
 |------------|------------|--------------------------------|
