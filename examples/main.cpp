@@ -3,8 +3,8 @@
 #include <vector>
 #include <type_traits>
 #include <boost/crc.hpp>
-#include "hash.h"
-#include "algorithms.h"
+#include <noch/hash.h>
+#include <noch/algorithms.h>
 
 namespace app{
 
@@ -67,10 +67,9 @@ int main(int argc, char **argv) {
     std::cout << app::hash::hash_value(app::coordinates<double>{10, 20}) << " " << app::hash::hash_value(app::coordinates<int>{10, 20}) << std::endl;
     std::cout << app::hash::hash_value(c) << std::endl;
 
-
     app::hash::state state;
-    std::cout << std::hex << app::hash::hash_value(std::string("hello"), state) << std::endl;
-    std::cout << std::hex << noch::hash_value<app::algo>(std::string("world"), state) << std::endl;
+    std::cout << std::hex << app::hash::hash_value(std::string("this is a"), state) << std::endl;
+    std::cout << std::hex << noch::hash_value<app::algo>(std::string(" test string"), state) << std::endl;
 
     return 0;
 }
