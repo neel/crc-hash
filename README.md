@@ -1,4 +1,10 @@
-Simple CRC based hash using Boost.CRC 
+A tiny NOn Cryptographic Hash library. Only a subset of incremental hash functions are supported.
+
+| Algorithm  | Bits       | Source                         |
+|------------|------------|--------------------------------|
+| CRC Family | 16, 32, 64 | Boost CRC                      |
+| Fnv1a      | 32, 64     | -                              |
+| imurmur    | 32         | Translated from [imurmurhash-js](https://github.com/jensyt/imurmurhash-js) |
 
 Calculate hash like `noch::hash_value<noch::algorithms::crc32>(std::string("Hello"))`.
 
