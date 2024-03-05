@@ -8,8 +8,8 @@
 
 namespace app{
 
-using algo = nch::algorithms::imurmur32;
-using hash = nch::algorithm<algo>;
+using algo = noch::algorithms::imurmur32;
+using hash = noch::algorithm<algo>;
 
 template <typename T>
 struct coordinates{
@@ -21,7 +21,7 @@ struct coordinates{
     constexpr value_type y() const { return _y; }
 
     friend hash::value hash_value(const coordinates<T>& coords, hash::state& state){
-        return nch::hash_values(state, coords._x, coords._y);
+        return noch::hash_values(state, coords._x, coords._y);
     }
 
     private:
@@ -47,8 +47,8 @@ struct content{
     }
 
     friend hash::value hash_value(const content<T>& c, hash::state& state){
-        nch::hash_value(c._points, state);
-        return nch::hash_value(c._angle, state);
+        noch::hash_value(c._points, state);
+        return noch::hash_value(c._angle, state);
     }
 
     private:
@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
 
     app::hash::state state;
     std::cout << std::hex << app::hash::hash_value(std::string("hello"), state) << std::endl;
-    std::cout << std::hex << nch::hash_value<app::algo>(std::string("world"), state) << std::endl;
+    std::cout << std::hex << noch::hash_value<app::algo>(std::string("world"), state) << std::endl;
 
     return 0;
 }

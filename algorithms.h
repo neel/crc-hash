@@ -9,7 +9,7 @@
 #include <cstdint>
 #include <boost/crc.hpp>
 
-namespace nch{
+namespace noch{
 
 namespace algorithms{
 

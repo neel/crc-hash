@@ -9,14 +9,14 @@
 #include <type_traits>
 #include <boost/crc.hpp>
 
-namespace nch{
+namespace noch{
 
 template <typename T>
 struct hash;
 
 template <typename T>
 class specialized{
-    template <class Arg, class Dummy = decltype(nch::hash<Arg>{})>
+    template <class Arg, class Dummy = decltype(noch::hash<Arg>{})>
     static constexpr bool exists(int) { return true; }
     template <class Arg>
     static constexpr bool exists(char) { return false; }
@@ -44,11 +44,11 @@ template <typename T>
 struct hash_value_internal<T, true>{
     template<typename State>
     static typename State::value compute(const T& v, State& state){
-        return nch::hash<T>{}(v, state);
+        return noch::hash<T>{}(v, state);
     }
     template<typename State>
     static typename State::value compute(const T* ptr, std::size_t bytes, State& state){
-        return nch::hash<T>{}(ptr, bytes, state);
+        return noch::hash<T>{}(ptr, bytes, state);
     }
 };
 
@@ -107,7 +107,7 @@ struct algorithm{
 
     template <typename T>
     static value hash_value(const T& v, state& s){
-        return nch::hash_value(v, s);
+        return noch::hash_value(v, s);
     }
 
     template <typename T>
@@ -119,7 +119,7 @@ struct algorithm{
 
 template <typename Algorithm, typename T>
 typename Algorithm::state::value hash_value(const T& v, typename Algorithm::state& state){
-    return nch::hash_value(v, state);
+    return noch::hash_value(v, state);
 }
 
 template <typename Algorithm, typename T>
