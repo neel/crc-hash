@@ -8,8 +8,7 @@
 
 namespace app{
 
-using algo = noch::algorithm<noch::algorithms::mixed1>;
-using hasher = algo;
+using hash = noch::algorithm<noch::algorithms::mixed1>;
 
 template <typename T>
 struct coordinates{
@@ -20,8 +19,8 @@ struct coordinates{
     constexpr value_type x() const { return _x; }
     constexpr value_type y() const { return _y; }
 
-    friend hasher::value hash_value(const coordinates<T>& coords, hasher::state& state){
-        return noch::hash_values(state, coords._x, coords._y);
+    friend hash::value hash_combine(hash::state& state, const coordinates<T>& coords){
+        return noch::hash_combine(state, coords._x, coords._y);
     }
 
     private:
@@ -46,9 +45,9 @@ struct content{
         _points.push_back(coordinates_type(x, y));
     }
 
-    friend hasher::value hash_value(const content<T>& c, hasher::state& state){
-               noch::hash_value(c._points, state);
-        return noch::hash_value(c._angle,  state);
+    friend hash::value hash_combine(hash::state& state, const content<T>& c){
+               noch::hash_combine(state, c._points);
+        return noch::hash_combine(state, c._angle);
     }
 
     private:
@@ -64,13 +63,13 @@ int main(int argc, char **argv) {
     c.add(10, 20);
     c.add(65, 46);
 
-    std::cout << std::hex << app::hasher::hash(app::coordinates<double>{10, 20}) << std::endl;
-    std::cout << std::hex << app::hasher::hash(app::coordinates<int>{10, 20}) << std::endl;
-    std::cout << std::hex << app::hasher::hash(c) << std::endl;
+    std::cout << std::hex << app::hash::compute(app::coordinates<double>{10, 20}) << std::endl;
+    std::cout << std::hex << app::hash::compute(app::coordinates<int>{10, 20}) << std::endl;
+    std::cout << std::hex << app::hash::compute(c) << std::endl;
 
-    app::hasher::state state;
-    std::cout << std::hex << app::hasher::hash(std::string("this is a"), state) << std::endl;
-    std::cout << std::hex << noch::hash_value<app::algo>(std::string(" test string"), state) << std::endl;
+    app::hash::state state;
+    std::cout << std::hex << app::hash::compute(state, std::string("this is a")) << std::endl;
+    std::cout << std::hex << noch::hash_value<app::hash>(state, std::string(" test string")) << std::endl;
 
     return 0;
 }

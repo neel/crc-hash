@@ -25,49 +25,48 @@ class specialized{
 };
 
 template <typename T, bool Specialized>
-struct hash_value_internal;
+struct hash_combine_internal;
 
 template <typename T>
-struct hash_value_internal<T, false>{
+struct hash_combine_internal<T, false>{
     template<typename State>
-    static typename State::value compute(const T& v, State& state){
-        return compute(&v, sizeof(T), state);
+    static typename State::value compute(State& state, const T& v){
+        return compute(state, &v, sizeof(T));
     }
     template<typename State>
-    static typename State::value compute(const T* ptr, std::size_t bytes, State& state){
+    static typename State::value compute(State& state, const T* ptr, std::size_t bytes){
         const std::uint8_t* raw = reinterpret_cast<const std::uint8_t*>(ptr);
         return state(raw, bytes);
     }
 };
 
 template <typename T>
-struct hash_value_internal<T, true>{
+struct hash_combine_internal<T, true>{
     template<typename State>
-    static typename State::value compute(const T& v, State& state){
-        return noch::hash<T>{}(v, state);
+    static typename State::value compute(State& state, const T& v){
+        return noch::hash<T>{}(state, v);
     }
     template<typename State>
-    static typename State::value compute(const T* ptr, std::size_t bytes, State& state){
-        return noch::hash<T>{}(ptr, bytes, state);
+    static typename State::value compute(State& state, const T* ptr, std::size_t bytes){
+        return noch::hash<T>{}(state, ptr, bytes);
     }
 };
 
 
 template <typename T, typename State>
-typename State::value hash_value(const T& v, State& state){
-    return hash_value_internal<T, specialized<T>::value>::compute(v, state);
+typename State::value hash_combine(State& state, const T& v){
+    return hash_combine_internal<T, specialized<T>::value>::compute(state, v);
 }
 
 template <typename T, typename State>
-typename State::value hash_value(const T* ptr, std::size_t size, State& state){
-    return hash_value_internal<T, specialized<T>::value>::compute(ptr, size * sizeof(T), state);
+typename State::value hash_combine(State& state, const T* ptr, std::size_t size){
+    return hash_combine_internal<T, specialized<T>::value>::compute(state, ptr, size * sizeof(T));
 }
 
-template <typename State, typename... T>
-typename State::value hash_values(State& state, const T&... vs){
-    typename State::value res = 0;
-    ([&]{ res = hash_value(vs, state); }(), ...);
-    return res;
+template <typename State, typename X, typename... T>
+typename State::value hash_combine(State& state, const X& x, const T&... vs){
+           hash_combine(state, x);
+    return hash_combine(state, vs...);
 }
 
 
@@ -75,18 +74,18 @@ typename State::value hash_values(State& state, const T&... vs){
 template <typename T>
 struct hasher{
     template<typename State>
-    typename State::value operator()(const T& v, State& state) const{
-        return static_cast<const hash<T>*>(this)->combine(v, state);
+    typename State::value operator()(State& state, const T& v) const{
+        return static_cast<const hash<T>*>(this)->combine(state, v);
     }
 };
 
 template <typename T>
 struct hash<std::vector<T>>: hasher<std::vector<T>>{
     template<typename State>
-    typename State::value combine(const std::vector<T>& vec, State& state) const {
+    typename State::value combine(State& state, const std::vector<T>& vec) const {
         typename State::value res = 0;
         for(const T& v: vec)
-            res = hash_value(v, state);
+            res = hash_combine(state, v);
         return res;
     }
 };
@@ -94,8 +93,8 @@ struct hash<std::vector<T>>: hasher<std::vector<T>>{
 template <typename T>
 struct hash<std::basic_string<T>>: hasher<std::basic_string<T>>{
     template<typename State>
-    typename State::value combine(const std::basic_string<T>& str, State& state) const {
-        typename State::value res = hash_value(str.data(), str.size(), state);
+    typename State::value combine(State& state, const std::basic_string<T>& str) const {
+        typename State::value res = hash_combine(state, str.data(), str.size());
         return res;
     }
 };
@@ -106,26 +105,26 @@ struct algorithm{
     using value = typename state::value;
 
     template <typename T>
-    static value hash(const T& v, state& s){
-        return hash_value(v, s);
+    static value compute(state& s, const T& v){
+        return hash_combine(s, v);
     }
 
     template <typename T>
-    static value hash(const T& v){
+    static value compute(const T& v){
         state s;
-        return algorithm<Algorithm>::hash(v, s);
+        return algorithm<Algorithm>::compute(s, v);
     }
 };
 
 template <typename Algorithm, typename T>
-typename Algorithm::state::value hash_value(const T& v, typename Algorithm::state& state){
-    return hash_value(v, state);
+typename Algorithm::state::value hash_value(typename Algorithm::state& state, const T& v){
+    return hash_combine(state, v);
 }
 
 template <typename Algorithm, typename T>
 typename Algorithm::state::value hash_value(const T& v){
     typename Algorithm::state init;
-    return hash_value(v, init);
+    return hash_value(init, v);
 }
 
 }
