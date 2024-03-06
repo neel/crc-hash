@@ -5,6 +5,7 @@
 #include <boost/crc.hpp>
 #include <noch/hash.h>
 #include <noch/algorithms.h>
+#include <noch/io.h>
 
 namespace app{
 namespace manifest{

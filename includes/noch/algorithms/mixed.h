@@ -14,15 +14,6 @@
 
 #ifdef __SIZEOF_INT128__
 using uint128_t = unsigned __int128;
-inline std::ostream& operator<<(std::ostream& stream, uint128_t value){
-    uint64_t upper = static_cast<uint64_t>(value >> 64);
-    uint64_t lower = static_cast<uint64_t>(value);
-
-    std::ios_base::fmtflags f(stream.flags());
-    stream << std::hex << upper << lower;
-    stream.flags(f);
-    return stream;
-}
 #else
 #include <boost/multiprecision/cpp_int.hpp>
 using uint128_t = boost::multiprecision::uint128_t;
