@@ -31,6 +31,7 @@ template <typename T>
 struct hash_combine_internal<T, false>{
     template<typename State>
     static typename State::value compute(State& state, const T& v){
+        static_assert(std::is_arithmetic_v<T>, "hash_combine is not implemented inside non arithmatic class");
         return compute(state, &v, sizeof(T));
     }
     template<typename State>
