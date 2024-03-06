@@ -8,7 +8,6 @@
 #include <noch/io.h>
 
 namespace app{
-namespace manifest{
 
 using hash = noch::algorithm<noch::algorithms::mixed1>;
 
@@ -60,21 +59,20 @@ struct content{
 };
 
 }
-}
 
 
 int main(int argc, char **argv) {
-    app::manifest::content<int> c(42);
+    app::content<int> c(42);
     c.add(10, 20);
     c.add(65, 46);
 
-    std::cout << std::hex << app::manifest::hash::compute(app::manifest::coordinates<double>{10, 20}) << std::endl;
-    std::cout << std::hex << app::manifest::hash::compute(app::manifest::coordinates<int>{10, 20}) << std::endl;
-    std::cout << std::hex << app::manifest::hash::compute(c) << std::endl;
+    std::cout << std::hex << app::hash::compute(app::coordinates<double>{10, 20}) << std::endl;
+    std::cout << std::hex << app::hash::compute(app::coordinates<int>{10, 20}) << std::endl;
+    std::cout << std::hex << app::hash::compute(c) << std::endl;
 
-    app::manifest::hash::state state;
-    std::cout << std::hex << app::manifest::hash::compute(state, std::string("this is a")) << std::endl;
-    std::cout << std::hex << noch::hash_value<app::manifest::hash>(state, std::string(" test string")) << std::endl;
+    app::hash::state state;
+    std::cout << std::hex << app::hash::compute(state, std::string("this is a")) << std::endl;
+    std::cout << std::hex << noch::hash_value<app::hash>(state, std::string(" test string")) << std::endl;
 
     return 0;
 }
