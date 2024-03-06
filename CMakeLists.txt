@@ -12,6 +12,7 @@ SET(NOCH_INCLUDE_DIRS
 
 SET(NOCH_SOURCES
     sources/detail/imurmur3.cpp
+    sources/io.cpp
 )
 
 find_package(Boost REQUIRED)

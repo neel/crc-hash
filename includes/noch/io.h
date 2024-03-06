@@ -4,20 +4,16 @@
 #ifndef NCH_IO_H
 #define NCH_IO_H
 
+#include <cstdint>
 #include <ostream>
 
 #ifdef __SIZEOF_INT128__
 
-inline std::ostream& operator<<(std::ostream& stream, unsigned __int128 value){
-    unsigned __int128 upper = static_cast<unsigned __int128>(value >> 64);
-    unsigned __int128 lower = static_cast<unsigned __int128>(value);
+// https://stackoverflow.com/a/72651639
 
-    std::ios_base::fmtflags f(stream.flags());
-    stream << std::hex << upper << lower;
-    stream.flags(f);
-    return stream;
-}
+std::ostream& operator<<(std::ostream& out, __uint128_t val);
+std::ostream& operator<<(std::ostream& out, __int128_t val);
 
-#endif
+#endif // __SIZEOF_INT128__
 
 #endif // NCH_IO_H
