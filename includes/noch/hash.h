@@ -106,27 +106,16 @@ struct algorithm{
     using value = typename state::value;
 
     template <typename T>
-    value operator()(const T& v, state& s) const{
+    static value hash(const T& v, state& s){
         return hash_value(v, s);
     }
 
     template <typename T>
-    value operator()(const T& v) const{
+    static value hash(const T& v){
         state s;
-        return algorithm<Algorithm>::operator()(v, s);
+        return algorithm<Algorithm>::hash(v, s);
     }
 };
-
-template <typename Algorithm>
-struct hashing{
-    using state = typename Algorithm::state;
-    using value = typename state::value;
-    static algorithm<Algorithm> hash;
-};
-
-template <typename Algorithm>
-algorithm<Algorithm> hashing<Algorithm>::hash;
-
 
 template <typename Algorithm, typename T>
 typename Algorithm::state::value hash_value(const T& v, typename Algorithm::state& state){

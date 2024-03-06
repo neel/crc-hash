@@ -8,8 +8,8 @@
 
 namespace app{
 
-using algo = noch::algorithms::mixed1;
-using hasher = noch::hashing<algo>;
+using algo = noch::algorithm<noch::algorithms::mixed1>;
+using hasher = algo;
 
 template <typename T>
 struct coordinates{

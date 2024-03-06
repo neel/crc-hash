@@ -14,7 +14,7 @@
 
 #ifdef __SIZEOF_INT128__
 using uint128_t = unsigned __int128;
-std::ostream& operator<<(std::ostream& stream, uint128_t value){
+inline std::ostream& operator<<(std::ostream& stream, uint128_t value){
     uint64_t upper = static_cast<uint64_t>(value >> 64);
     uint64_t lower = static_cast<uint64_t>(value);
 
