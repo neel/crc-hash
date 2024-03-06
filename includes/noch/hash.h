@@ -80,6 +80,15 @@ struct hasher{
     }
 };
 
+template <typename U, typename V>
+struct hash<std::pair<U, V>>: hasher<std::pair<U, V>>{
+    template<typename State>
+    typename State::value combine(State& state, const std::pair<U, V>& pair) const {
+               hash_combine(state, pair.first);
+        return hash_combine(state, pair.second);
+    }
+};
+
 template <typename T>
 struct hash<std::vector<T>>: hasher<std::vector<T>>{
     template<typename State>
